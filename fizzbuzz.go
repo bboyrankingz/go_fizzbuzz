@@ -4,7 +4,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"encoding/json"
 )
+
+type BuzzStrings []*string
 
 func init() {
 	http.HandleFunc("/", helloHandler)
@@ -39,7 +42,12 @@ func fizzbuzzHandler(writer http.ResponseWriter, request *http.Request) {
 			a = append(a, string(sum))
 		}
 	}
-	fmt.Fprintf(writer, "Hello Fizzbuzz")
+	first := "1"
+	second := "2"
+	last := "fizz"
+	b, _ := json.Marshal(BuzzStrings{&first, &second, &last})
+
+	fmt.Fprintf(writer, string(b))
 }
 
 func WordOrEmpty(i int, number int, word string) string {
