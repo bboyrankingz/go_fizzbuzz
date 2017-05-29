@@ -45,7 +45,14 @@ func fizzbuzzHandler(writer http.ResponseWriter, request *http.Request) {
 	first := "1"
 	second := "2"
 	last := "fizz"
-	b, _ := json.Marshal(BuzzStrings{&first, &second, &last})
+	strings := BuzzStrings{&first, &second, &last}
+	more := "3"
+	anotherone := "4"
+	andthebuzz := "buzz"
+	strings = append(strings, &more)
+	strings = append(strings, &anotherone)
+	strings = append(strings, &andthebuzz)
+	b, _ := json.Marshal(strings)
 
 	fmt.Fprintf(writer, string(b))
 }
