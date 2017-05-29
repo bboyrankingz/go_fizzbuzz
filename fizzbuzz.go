@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"log"
 	"net/http"
 	"encoding/json"
@@ -29,29 +30,21 @@ func helloHandler(writer http.ResponseWriter, request *http.Request) {
 }
 
 func fizzbuzzHandler(writer http.ResponseWriter, request *http.Request) {
-	var a []string
-	sum := 1
-	for ; sum < 100; {
-		fizz := WordOrEmpty(sum, 3, "fizz")
-		buzz := WordOrEmpty(sum, 5, "buzz")
-		sum += sum
+	strings := BuzzStrings{}
+	for i := 1; i < 100; i++ {
+		fizz := WordOrEmpty(i, 3, "fizz")
+		buzz := WordOrEmpty(i, 5, "buzz")
+		//fmt.Println(i)
 		fizzbuzz := fizz + string(buzz)
 		if fizzbuzz != ""{
-			a = append(a, fizzbuzz)
+			strings = append(strings, &fizzbuzz)
 		} else {
-			a = append(a, string(sum))
+			t := strconv.Itoa(i)
+			//fmt.Println(strings)
+			strings = append(strings, &t)
 		}
 	}
-	first := "1"
-	second := "2"
-	last := "fizz"
-	strings := BuzzStrings{&first, &second, &last}
-	more := "3"
-	anotherone := "4"
-	andthebuzz := "buzz"
-	strings = append(strings, &more)
-	strings = append(strings, &anotherone)
-	strings = append(strings, &andthebuzz)
+
 	b, _ := json.Marshal(strings)
 
 	fmt.Fprintf(writer, string(b))

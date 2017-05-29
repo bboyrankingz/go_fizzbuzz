@@ -49,14 +49,14 @@ func TestFizzBuzzdHttp(t *testing.T) {
 		t.Fatalf("Response status Expected %d but got %d", 200, resp.StatusCode)
 	}
 	actualResult := []string{}
-	var expectedResult = []string{"1", "2", "fizz", "3", "4", "buzz"}
+	var expectedResult = []string{"1", "2", "fizz", "4", "buzz"}
 	if err := json.NewDecoder(resp.Body).Decode(&actualResult); err != nil {
 		log.Fatalln(err)
 	}
 
-	for index, element := range actualResult {
-		if element != expectedResult[index] {
-			t.Fatalf("Expected %s but got %s", expectedResult[index], element)
+	for index, element := range expectedResult {
+		if element != actualResult[index] {
+			t.Fatalf("Expected %s but got %s", actualResult[index], element)
 		}
 	}
 
